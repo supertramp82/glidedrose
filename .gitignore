@@ -1,0 +1,8 @@
+.vs
+glidedrose/bin
+glidedrose/obj
+glidedrose.Tests/bin
+glidedrose.Tests/obj
+packages
+ClientTest/bin
+ClientTest/obj
