@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -65,8 +66,9 @@ namespace glidedrose
                 //extract and assign the user of the jwt
                 Thread.CurrentPrincipal = handler.ValidateToken(token, validationParameters, out securityToken);
 
-                HttpContext.Current = FakeHttpContext();
-                HttpContext.Current.User = handler.ValidateToken(token, validationParameters, out securityToken);
+                //HttpContext.Current = FakeHttpContext();
+                HttpContext.Current.User = Thread.CurrentPrincipal;
+                    // handler.ValidateToken(token, validationParameters, out securityToken);
 
                 return base.SendAsync(request, cancellationToken);
             }
@@ -92,7 +94,7 @@ namespace glidedrose
 
         public static HttpContext FakeHttpContext()
         {
-            var httpRequest = new HttpRequest("", "http://localhost:58628/", "");
+            var httpRequest = new HttpRequest("", "http://localhost/", "");
             var stringWriter = new StringWriter();
             var httpResponse = new HttpResponse(stringWriter);
             var httpContext = new HttpContext(httpRequest, httpResponse);
@@ -102,14 +104,12 @@ namespace glidedrose
                                                     HttpCookieMode.AutoDetect,
                                                     SessionStateMode.InProc, false);
 
-            //httpContext.Items["AspSession"] = typeof(HttpSessionState).GetConstructor(
-            //                            BindingFlags.NonPublic | BindingFlags.Instance,
-            //                            null, CallingConventions.Standard,
-            //                            new[] { typeof(HttpSessionStateContainer) },
-            //                            null)
-            //                    .Invoke(new object[] { sessionContainer });
-
-            SessionStateUtility.AddHttpSessionStateToContext(httpContext, sessionContainer);
+            httpContext.Items["AspSession"] = typeof(HttpSessionState).GetConstructor(
+                                        BindingFlags.NonPublic | BindingFlags.Instance,
+                                        null, CallingConventions.Standard,
+                                        new[] { typeof(HttpSessionStateContainer) },
+                                        null)
+                                .Invoke(new object[] { sessionContainer });
 
             return httpContext;
         }

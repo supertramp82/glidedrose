@@ -30,3 +30,21 @@ that should be decreased every time an item purchased.
 An api call should probably return an error when an item requestd bur there is not enough in the inventory
 
 - some Item class fields changes are needed - probably, an ID should be added to the Item class, as ID will be always a unique number comparing to any other field that (Name) that could be used for item location (Name field can be duplicate at some point and it could lead to incorrect item location). Also, Price field should be a Float / Double instead of Int as it's rare to have all prices as a whole numbers.
+
+- so far, canno make unit test for buying an item to work when using authorization. I know the reason, why it's not working - basically, there is no actual httpcontext when running unit tests, I tried to fake it but authorization still is denied.
+
+- everything works just fine when I test "buying an item" (http://localhost:58628/api/buyitem and POST method) with authentication token (you can get an aquthentication token when you run http://localhost:58628/api/login and then add that token to request header)
+
+- here is a sample of the Request:
+
+POST /api/buyitem HTTP/1.1
+Host: localhost:58628
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImdsaWRlZHJvc2UiLCJuYmYiOjE1NDk5MjQ1NTMsImV4cCI6MTU1MDUyOTM1MywiaWF0IjoxNTQ5OTI0NTUzLCJpc3MiOiJnbGlkZWRyb3NlIiwiYXVkIjoiZ2xpZGVkcm9zZSJ9.uuGDlsrwWs49DkGbZlVM8FYXoBxn6sxA1j84uGfOEU8
+cache-control: no-cache
+Postman-Token: 94a8f054-6299-427a-9b30-00953d06e1e6
+id=4undefined=undefined
+
+- here is a sample of response:
+
+{"Id":4,"Name":"Zoom Pegasus 35 Turbo","Description":"Lightweight running shoe with most responsive cushioning to date","Price":180}

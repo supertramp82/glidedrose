@@ -23,7 +23,7 @@ namespace glidedrose.Tests
     public class ApiIntegrationTest
     {
         private HttpServer _server;
-        private string _url = "http://localhost:58628/";
+        private string _url = "http://localhost/";
         
         Item[] items = new Item[]
         {
@@ -108,7 +108,7 @@ namespace glidedrose.Tests
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             if (content != null && content != string.Empty)
             {
-                HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json");
+                HttpContent httpContent = new StringContent(content, Encoding.UTF8);
                 request.Content = httpContent;
             }
             if (auth != null)
