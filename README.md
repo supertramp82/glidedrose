@@ -48,3 +48,5 @@ id=4undefined=undefined
 - here is a sample of response:
 
 {"Id":4,"Name":"Zoom Pegasus 35 Turbo","Description":"Lightweight running shoe with most responsive cushioning to date","Price":180}
+
+- this particular version of the API authentication uses hard-coded "glidedrose" username - in real life we will need to make a small modification adding authentication part and allow to create token only if the authentication is went through
